@@ -79,19 +79,21 @@ twocope(twocope==999990)=NaN;
 twocope(twocope==999999)=NaN;
 
 twomiddle=twocope(:,1:5)
-
+%_______________________________________________________________拉格朗日函数matlab——————————————————————————————————————————————————————————————————————
+%输入x数据点x坐标（后期是去掉缺失点），y数据点y坐标（后期是去掉缺失点），xo（缺失点x坐标），lie插补列的序号，原矩阵twocope，
 % 假设原始数据向量
-data = twocope(:,n2);%最后一列
-%————————————————————————————————————————————————————————-拉格朗日多项式插值法方法实践————————————————————————————————————————————————————————————————————————————————
-输入x，y，data原数组，twocope矩阵
+lie=7
+data = twocope(:,lie);
+
+
 % 找到缺失值的位置
 missing_idx = find(isnan(data));
 
 %输入数据点的坐标
-x = 1:m2%横坐标·
-y = twocope(:,hhh)%纵坐标
+x = 1:m2
+y = data
+%  
 
-%去除x，y中的缺失和异常值
 valid_indices = ~isnan(y);  % 找到 y 中不是 NaN 的元素的索引
 x = x(valid_indices); % 根据索引从 x 中选取相应的元素
 y = y(valid_indices); % 根据索引从 y 中选取相应的元素
@@ -109,7 +111,6 @@ missing_idx = x0';
 x_known = x;
 y_known = y';
 
-
 % 拉格朗日插值
 for i = 1:length(missing_idx)
     % 当前缺失值的索引
@@ -121,8 +122,8 @@ for i = 1:length(missing_idx)
     % 计算拉格朗日插值
     y0 = Lagrange(x_known, y_known, x0);
     
-    % 将插值结果填补到缺失值位置
-    twocope(idx,n2) = y0;
+    % 将插值结果填补到缺失值位置,插补的列位
+    twocope(idx,lie) = y0;
 end
 
 
@@ -150,7 +151,3 @@ function y0 = Lagrange(x, y, x0)
         y0 = y0 + L * y(i);
     end
 end
-
-
-
-
